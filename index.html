@@ -18,18 +18,21 @@
 <div class="wrap">
   <div class="top">
     <span>Amaan Hafeez · Western University</span>
-    <button class="theme" id="theme-toggle" type="button" aria-pressed="false">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-      <span id="theme-label">Dark mode</span>
-    </button>
+    <span class="top-right">
+      <a href="https://github.com/amaanhafeez18/fed-policy-uncertainty">Data and code on GitHub</a>
+      <button class="theme" id="theme-toggle" type="button" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <span id="theme-label">Dark mode</span>
+      </button>
+    </span>
   </div>
 
   <header class="head" id="top">
     <h1>How uncertain does the Fed sound? A weekly index read by three AI models, 1994–2015</h1>
-    <p class="byline">Weekly index from December 31, 1993 to May 29, 2015 · 1,118 weeks · Amaan Hafeez</p>
+    <p class="byline">1,118 weeks, December 31, 1993 to May 29, 2015 · Amaan Hafeez</p>
     <p class="lead prose">Three AI language models scored <b>40,039</b> paragraphs from <b>1,518</b> Federal Reserve documents for how uncertain the Fed sounds about its own policy path. They largely agree on which paragraphs are about policy, but their weekly indices barely move with established uncertainty measures: across <b>12</b> comparisons with four such measures, the largest correlation of changes is <b>0.13</b>, and <b>2</b> pass the 5% cut-off.</p>
     <nav class="toc" aria-label="Sections">
-      <a href="#together">The index</a><a href="#luna">Luna</a><a href="#gemini">Gemini</a><a href="#haiku">Haiku</a><a href="#measures">Against other measures</a><a href="#data">The data</a><a href="#cleaning">Cleaning</a><a href="#prompt">The prompt and the models</a><a href="#downloads">Downloads</a>
+      <a href="#together">The index</a><a href="#luna">Luna</a><a href="#gemini">Gemini</a><a href="#haiku">Haiku</a><a href="#measures">Against other measures</a><a href="#data">The data</a><a href="#cleaning">Cleaning</a><a href="#prompt">The prompt and the models</a>
     </nav>
   </header>
 
@@ -42,12 +45,14 @@
           <select id="cmp-view"><option value="main">All Fed text (the main index)</option><option value="ms">FOMC minutes and statements only</option></select>
         </label>
       </div>
+      <p class="callout prose" id="cmp-note-main">The main index uses all Fed text: statements, minutes, press conferences and speeches. Switch to minutes and statements only for a consistency check.</p>
+      <p class="callout prose" id="cmp-note-ms" hidden><b>Why this version matters.</b> Minutes and statements are the only documents published in every year of the sample (speeches start in June 1996, press conferences in April 2011). Holding the mix of text fixed shows whether the main index moves only because new kinds of documents enter it. The models agree more evenly here (13-week correlations of 0.51 to 0.61 between pairs, against 0.41 to 0.69 on all text), but the index rests on far less text: about 15 documents a year instead of 71, new text in 24% of weeks instead of 67%, and 20% of the paragraphs. It is a check, not a better index: its largest correlation of changes with the four uncertainty measures is 0.12, with 1 of 12 beyond the 5% cut-off.</p>
       <div class="legend">
         <span><i data-color="--luna"></i>GPT-6 Luna</span><span><i data-color="--gemini"></i>Gemini 3.1 Flash-Lite</span><span><i data-color="--haiku"></i>Claude Haiku 5.5</span>
       </div>
       <div class="chart" data-chart="compare"></div>
     </div>
-    <p class="prose">13-week averages. In the main index Luna and Haiku track each other (correlation <b class="stat">0.69</b>), while Gemini sits higher and moves differently (<b class="stat">0.42</b> with Luna, <b class="stat">0.41</b> with Haiku). Most of that gap comes from speeches: on speech paragraphs about policy, Gemini's average score is <b class="stat">4.35</b>, against <b class="stat">2.45</b> for Luna and <b class="stat">2.68</b> for Haiku. On minutes and statements alone the three pairs are closer together: <b class="stat">0.59</b>, <b class="stat">0.61</b> and <b class="stat">0.51</b>.</p>
+    <p class="prose">13-week averages. Luna and Haiku track each other (<b class="stat">0.69</b>); Gemini runs higher and moves differently (<b class="stat">0.42</b> with Luna, <b class="stat">0.41</b> with Haiku), mostly because it reads speeches as more uncertain: its average score on speech paragraphs about policy is <b class="stat">4.35</b>, against <b class="stat">2.45</b> for Luna and <b class="stat">2.68</b> for Haiku.</p>
   </section>
 
   
@@ -59,8 +64,8 @@
       <div class="chart" data-chart="model" data-model="luna"></div>
     </div>
     <ul class="findings">
-      <li>The weekly index averages <b class="stat">2.89</b> on the 0–10 scale, with a weekly standard deviation of <b class="stat">1.01</b>.</li>
-      <li>It calls <b class="stat">14.0%</b> of all paragraphs about future policy and gives those an average score of <b class="stat">2.82</b>.</li>
+      <li>Weekly index: average <b class="stat">2.89</b> on the 0–10 scale, standard deviation <b class="stat">1.01</b>.</li>
+      <li>Calls <b class="stat">14.0%</b> of all paragraphs about future policy, with an average score of <b class="stat">2.82</b> on those.</li>
     </ul>
     <div class="tablewrap"><table>
       <thead><tr><th>Document type</th><th class="num">Paragraphs about policy</th><th class="num">Average score on those</th><th class="num">Policy paragraphs</th></tr></thead>
@@ -75,8 +80,8 @@
       <div class="chart" data-chart="model" data-model="gemini"></div>
     </div>
     <ul class="findings">
-      <li>The weekly index averages <b class="stat">3.98</b> on the 0–10 scale, with a weekly standard deviation of <b class="stat">0.99</b>.</li>
-      <li>It calls <b class="stat">16.0%</b> of all paragraphs about future policy and gives those an average score of <b class="stat">4.18</b>.</li>
+      <li>Weekly index: average <b class="stat">3.98</b> on the 0–10 scale, standard deviation <b class="stat">0.99</b>.</li>
+      <li>Calls <b class="stat">16.0%</b> of all paragraphs about future policy, with an average score of <b class="stat">4.18</b> on those.</li>
     </ul>
     <div class="tablewrap"><table>
       <thead><tr><th>Document type</th><th class="num">Paragraphs about policy</th><th class="num">Average score on those</th><th class="num">Policy paragraphs</th></tr></thead>
@@ -91,8 +96,8 @@
       <div class="chart" data-chart="model" data-model="haiku"></div>
     </div>
     <ul class="findings">
-      <li>The weekly index averages <b class="stat">3.08</b> on the 0–10 scale, with a weekly standard deviation of <b class="stat">1.04</b>.</li>
-      <li>It calls <b class="stat">21.0%</b> of all paragraphs about future policy and gives those an average score of <b class="stat">3.07</b>.</li>
+      <li>Weekly index: average <b class="stat">3.08</b> on the 0–10 scale, standard deviation <b class="stat">1.04</b>.</li>
+      <li>Calls <b class="stat">21.0%</b> of all paragraphs about future policy, with an average score of <b class="stat">3.07</b> on those.</li>
     </ul>
     <div class="tablewrap"><table>
       <thead><tr><th>Document type</th><th class="num">Paragraphs about policy</th><th class="num">Average score on those</th><th class="num">Policy paragraphs</th></tr></thead>
@@ -103,7 +108,7 @@
   <section id="measures">
     <p class="eyebrow">3 · Against other measures</p>
     <h2>Each model against established measures and the economy</h2>
-    <p class="prose">If the index captures uncertainty about Fed policy, it should move with other measures of it. The four uncertainty measures are the Husted–Rogers–Sun newspaper index of uncertainty about Fed policy, the Baker–Bloom–Davis monetary-policy index, the VIX and the volatility of the 2-year Treasury yield. Inflation and unemployment show how the index relates to the economy. Choose a measure and a model.</p>
+    <p class="prose">An index of Fed policy uncertainty should move with other measures of it: the Husted–Rogers–Sun newspaper index of uncertainty about Fed policy, the Baker–Bloom–Davis monetary-policy index, the VIX and the volatility of the 2-year Treasury yield. Inflation and unemployment show how it relates to the economy.</p>
     <div class="figure">
       <div class="controls">
         <label for="msr-measure">Measure
@@ -119,19 +124,19 @@
       <div class="chart" data-chart="measure"></div>
       <p class="rline" id="msr-r" aria-live="polite"></p>
     </div>
-    <p class="note prose">Both lines are in standard deviations from their own average so they share one scale, and smoothed (13 weeks or 3 months) to be readable; the correlations use the unsmoothed values. Levels ask whether the index is high when the measure is high. Changes ask whether it rises when the measure rises, the stricter test, since two series that trend over 21 years correlate in levels even when unrelated. Monthly comparisons use the monthly average of the weekly index.</p>
+    <p class="note prose">Both lines are in standard deviations from their own average and smoothed (13 weeks or 3 months); the correlations use unsmoothed values, and monthly comparisons use the monthly average of the weekly index. Levels ask whether the index is high when the measure is high; changes ask whether it rises when the measure rises. Changes are the stricter test, because series that trend over 21 years correlate in levels even when unrelated.</p>
     <h3>All correlations</h3>
     <div class="tablewrap"><table>
       <thead><tr><th>Measure</th><th>Model</th><th class="num">Levels</th><th class="num">Changes</th><th class="num">5% cut-off</th><th class="num">Observations</th></tr></thead>
       <tbody><tr><td>Husted–Rogers–Sun</td><td>GPT-6 Luna</td><td class="num">−0.04</td><td class="num">+0.02</td><td class="num">0.12</td><td class="num">258</td></tr><tr><td>Husted–Rogers–Sun</td><td>Gemini 3.1 Flash-Lite</td><td class="num">+0.11</td><td class="num">+0.09</td><td class="num">0.12</td><td class="num">258</td></tr><tr><td>Husted–Rogers–Sun</td><td>Claude Haiku 5.5</td><td class="num">+0.11</td><td class="num">+0.05</td><td class="num">0.12</td><td class="num">258</td></tr><tr><td>Baker–Bloom–Davis</td><td>GPT-6 Luna</td><td class="num">−0.06</td><td class="num">+0.08</td><td class="num">0.12</td><td class="num">258</td></tr><tr><td>Baker–Bloom–Davis</td><td>Gemini 3.1 Flash-Lite</td><td class="num">+0.06</td><td class="num sig">+0.13</td><td class="num">0.12</td><td class="num">258</td></tr><tr><td>Baker–Bloom–Davis</td><td>Claude Haiku 5.5</td><td class="num">+0.05</td><td class="num">+0.07</td><td class="num">0.12</td><td class="num">258</td></tr><tr><td>VIX</td><td>GPT-6 Luna</td><td class="num">−0.04</td><td class="num">−0.02</td><td class="num">0.06</td><td class="num">1,118</td></tr><tr><td>VIX</td><td>Gemini 3.1 Flash-Lite</td><td class="num sig">+0.06</td><td class="num">−0.02</td><td class="num">0.06</td><td class="num">1,118</td></tr><tr><td>VIX</td><td>Claude Haiku 5.5</td><td class="num sig">−0.09</td><td class="num">−0.02</td><td class="num">0.06</td><td class="num">1,118</td></tr><tr><td>2-year yield volatility</td><td>GPT-6 Luna</td><td class="num">−0.00</td><td class="num">+0.02</td><td class="num">0.06</td><td class="num">1,118</td></tr><tr><td>2-year yield volatility</td><td>Gemini 3.1 Flash-Lite</td><td class="num sig">−0.09</td><td class="num sig">−0.07</td><td class="num">0.06</td><td class="num">1,118</td></tr><tr><td>2-year yield volatility</td><td>Claude Haiku 5.5</td><td class="num">+0.03</td><td class="num">+0.02</td><td class="num">0.06</td><td class="num">1,118</td></tr><tr><td>CPI inflation</td><td>GPT-6 Luna</td><td class="num">−0.05</td><td class="num">−0.02</td><td class="num">0.12</td><td class="num">258</td></tr><tr><td>CPI inflation</td><td>Gemini 3.1 Flash-Lite</td><td class="num">−0.07</td><td class="num">−0.08</td><td class="num">0.12</td><td class="num">258</td></tr><tr><td>CPI inflation</td><td>Claude Haiku 5.5</td><td class="num">+0.09</td><td class="num">+0.01</td><td class="num">0.12</td><td class="num">258</td></tr><tr><td>Unemployment rate</td><td>GPT-6 Luna</td><td class="num sig">−0.15</td><td class="num">+0.05</td><td class="num">0.12</td><td class="num">258</td></tr><tr><td>Unemployment rate</td><td>Gemini 3.1 Flash-Lite</td><td class="num sig">−0.15</td><td class="num">+0.02</td><td class="num">0.12</td><td class="num">258</td></tr><tr><td>Unemployment rate</td><td>Claude Haiku 5.5</td><td class="num sig">−0.20</td><td class="num">+0.02</td><td class="num">0.12</td><td class="num">258</td></tr></tbody>
     </table></div>
-    <p class="note prose">Bold: beyond the 5% cut-off. Level correlations of slow-moving series are inflated by their persistence, so the cut-off is generous for them. MOVE and emerging-market spreads are not freely available back to 1994; they will come from Bloomberg.</p>
+    <p class="note prose">Bold: beyond the 5% cut-off, which is generous for levels because persistent series inflate them. MOVE and emerging-market spreads are not freely available back to 1994; they will come from Bloomberg.</p>
   </section>
 
   <section id="data">
     <p class="eyebrow">4 · The data</p>
     <h2>Every FOMC statement, set of minutes and press conference, and every Board speech</h2>
-    <p class="prose">All text comes from federalreserve.gov. Each document is dated by the day it became public. Minutes count from their release: about three weeks after the meeting from December 2004, and a few days after the next meeting before that.</p>
+    <p class="prose">All text is from federalreserve.gov, dated by the day it became public. Minutes count from their release: about three weeks after the meeting from December 2004, a few days after the next meeting before that.</p>
     <div class="tablewrap"><table>
       <thead><tr><th>Document type</th><th>First in the sample</th><th class="num">Documents</th><th class="num">Paragraphs scored</th><th class="num">Words</th></tr></thead>
       <tbody><tr><td>FOMC statements</td><td>Feb 1994</td><td class="num">152</td><td class="num">439</td><td class="num">53,079</td></tr><tr><td>FOMC minutes</td><td>Nov 1993</td><td class="num">174</td><td class="num">7,482</td><td class="num">1,059,818</td></tr><tr><td>Board speeches</td><td>Jun 1996</td><td class="num">1,175</td><td class="num">31,436</td><td class="num">3,983,364</td></tr><tr><td>Press conferences</td><td>Apr 2011</td><td class="num">17</td><td class="num">682</td><td class="num">143,121</td></tr></tbody>
@@ -143,16 +148,16 @@
       </div>
       <div class="chart short" data-chart="docs"></div>
     </div>
-    <p class="note prose">Speeches start in 1996 and press conferences in April 2011. Before May 1999 the Fed issued a statement only when it changed policy, so 1994 and 1995 rest mostly on the minutes.</p>
+    <p class="note prose">Before May 1999 the Fed issued a statement only when it changed policy, so 1994–95 rest mostly on the minutes.</p>
   </section>
 
   <section id="cleaning">
     <p class="eyebrow">5 · Cleaning</p>
     <h2>How the text was cleaned</h2>
     <ol class="steps prose">
-      <li><b>Read each page.</b> Only the document's own text, without menus, page headers or links.</li>
-      <li><b>Cut it into paragraphs</b> at the Fed's own paragraph breaks, 60 to 250 words each. Short pieces are joined to the next one and long ones are split at the end of a sentence.</li>
-      <li><b>Remove what is not the Fed speaking:</b> attendance lists, vote tallies, bibliographies, headings and datelines, and reporters' questions at press conferences.</li>
+      <li><b>Read each page:</b> the document's own text only, without menus, page headers or links.</li>
+      <li><b>Cut into paragraphs</b> at the Fed's own breaks, 60 to 250 words each: short pieces join the next one, long ones split at a sentence end. 98.5% fall in that range; the rest are a document's short last piece, or slightly longer where a short piece was joined on.</li>
+      <li><b>Remove what is not the Fed speaking:</b> attendance lists, vote tallies, bibliographies, headings, datelines, and reporters' questions at press conferences.</li>
       <li><b>Keep everything else,</b> including footnotes, numbered points, bullet lists and the policy directive quoted in the minutes.</li>
     </ol>
     <p class="prose"><b class="stat">94.1%</b> of all words end up in a paragraph the models scored.</p>
@@ -165,13 +170,13 @@
   <section id="prompt">
     <p class="eyebrow">6 · The prompt and the models</p>
     <h2>What each model was asked</h2>
-    <p class="prose">Every paragraph goes to each model on its own, with no date, no speaker and no document name. All three models get the same instructions and answer in a fixed format with five fields.</p>
+    <p class="prose">Each paragraph goes to each model on its own, with no date, speaker or document name. All three get the same instructions and answer five fields:</p>
     <dl class="fields prose">
-      <dt>policy_relevant</dt><dd>Yes or no: does the paragraph say anything about the future path of U.S. monetary policy (the federal funds rate, the balance sheet, or how the Fed will decide)?</dd>
-      <dt>policy_uncertainty</dt><dd>0 to 10: how uncertain the Fed sounds about its own future policy path. A paragraph that is not about policy scores 0. <b>The index is built from this number.</b></dd>
+      <dt>policy_relevant</dt><dd>Yes or no: is the paragraph about the future path of U.S. monetary policy (the federal funds rate, the balance sheet, or how the Fed will decide)?</dd>
+      <dt>policy_uncertainty</dt><dd>0 to 10: how uncertain the Fed sounds about its own future policy path; 0 if not about policy. <b>The index is built from this number.</b></dd>
       <dt>economic_uncertainty</dt><dd>0 to 10: how uncertain it sounds about the economic outlook.</dd>
-      <dt>stance</dt><dd>Hawkish, neutral or dovish, kept separate so a firm commitment is not mistaken for certainty or uncertainty.</dd>
-      <dt>reason</dt><dd>At most 25 words, quoting the phrase that drove the score.</dd>
+      <dt>stance</dt><dd>Hawkish, neutral or dovish, kept separate so a firm commitment is not read as certainty or uncertainty.</dd>
+      <dt>reason</dt><dd>At most 25 words, quoting the phrase behind the score.</dd>
     </dl>
     <div class="scale" aria-label="The 0 to 10 policy uncertainty scale">
       <div><strong>0</strong><span>A definite, pre-committed path</span></div>
@@ -204,9 +209,9 @@ Score the passage on these fields:
 
 Stance and uncertainty are different things. &quot;We will keep raising rates until the job is done&quot; is hawkish with LOW uncertainty. &quot;We may slow the pace, or we may need to go further; it will depend on the data&quot; has HIGH uncertainty whatever its stance. Hedged but routine Fed language (&quot;the Committee will continue to monitor&quot;) should not be scored as high uncertainty on its own.</pre>
     </details>
-    <p class="prose"><b>From paragraphs to a weekly index.</b> For each model, the policy-uncertainty scores of the paragraphs it calls about policy are averaged within each document, then across the documents released in each week (weeks end on Friday). A week with no new policy text keeps the previous week's value.</p>
+    <p class="prose"><b>From paragraphs to weeks:</b> each model's scores on the paragraphs it calls about policy are averaged within each document, then across the documents released each week (weeks end on Friday). A week with no new policy text keeps the previous value.</p>
     <h3 id="models">The three models</h3>
-    <p class="prose">Using three low-cost models from different companies shows whether the result depends on which model reads the text.</p>
+    <p class="prose">Three low-cost models from different companies, to see whether the result depends on which model reads the text.</p>
     <div class="cards"><div class="card"><h3><span class="swatch" data-color="--luna"></span>GPT-6 Luna</h3>
       <span class="who">OpenAI · low reasoning effort</span>
       <dl><dt>Paragraphs about future policy</dt><dd>14.0%</dd><dt>Average score on those</dt><dd>2.82</dd>
@@ -222,17 +227,12 @@ Stance and uncertainty are different things. &quot;We will keep raising rates un
       <thead><tr><th>Models</th><th class="num">Same yes/no on "about policy"</th><th class="num">Kappa</th><th class="num">Scores within 1 point</th><th class="num">Weekly index correlation</th><th class="num">13-week averages</th><th class="num">13-week, minutes and statements only</th></tr></thead>
       <tbody><tr><td>Luna and Gemini</td><td class="num">93.6%</td><td class="num">0.75</td><td class="num">54.4%</td><td class="num">0.27</td><td class="num">0.42</td><td class="num">0.59</td></tr><tr><td>Luna and Haiku</td><td class="num">91.1%</td><td class="num">0.69</td><td class="num">74.5%</td><td class="num">0.56</td><td class="num">0.69</td><td class="num">0.61</td></tr><tr><td>Gemini and Haiku</td><td class="num">92.2%</td><td class="num">0.74</td><td class="num">62.9%</td><td class="num">0.31</td><td class="num">0.41</td><td class="num">0.51</td></tr></tbody>
     </table></div>
-    <p class="note prose">Kappa is agreement beyond what chance would give: 0 is chance, 1 is perfect. "Scores within 1 point" counts paragraphs both models call about policy.</p>
-  </section>
-
-  <section id="downloads">
-    <p class="eyebrow">7 · The data behind this page</p>
-    <h2>Everything I looked at: data, report and code</h2>
-    <ul class="files"><li><a href="report/Fed_policy_uncertainty_index_1994-2015.pdf">Report (PDF)</a> — everything on this page, as a static document</li><li><a href="data/weekly_index_1993_2015.xlsx">Weekly index (Excel)</a> — 1118 weeks, three models, with column notes, 46 KB</li><li><a href="data/weekly_index_1993_2015.csv">Weekly index (CSV)</a> — 53 KB</li><li><a href="data/paragraphs_scored.csv.gz">Every paragraph with each model&#x27;s answer</a> — text, scores, stance and reason, gzip CSV, 13.7 MB</li><li><a href="data/documents.csv.gz">Every Fed document</a> — release date, type, speaker, link and full text, gzip CSV, 10.8 MB</li><li><a href="data/comparison_monthly.csv">Comparison series, monthly</a> — Husted–Rogers–Sun, Baker–Bloom–Davis, CPI inflation, unemployment</li><li><a href="data/comparison_weekly.csv">Comparison series, weekly</a> — 2-year Treasury yield volatility</li><li><a href="data/correlations.csv">All correlations</a> — levels, changes, 5% cut-offs</li><li><a href="data/model_agreement.csv">Model agreement</a> — by pair of models</li><li><a href="data/prompt.txt">The prompt</a> — the instructions every model received</li><li><a href="https://github.com/amaanhafeez18/fed-policy-uncertainty/tree/main/code">The code</a> — collection, cleaning, scoring and every table and chart, on GitHub</li></ul>
-    <p class="note prose">Sources: Federal Reserve Board (federalreserve.gov); FRED, Federal Reserve Bank of St. Louis (2-year Treasury yield, CPI, unemployment, VIX); Husted, Rogers and Sun, "Monetary Policy Uncertainty"; Baker, Bloom and Davis, "Measuring Economic Policy Uncertainty" (policyuncertainty.com). VIX values are not redistributed here; the raw series is VIXCLS on FRED. Recession shading follows NBER dates.</p>
+    <p class="note prose">Kappa is agreement beyond chance (0 is chance, 1 is perfect). "Scores within 1 point" counts paragraphs both models call about policy.</p>
   </section>
 
   <footer>
+    <span><a href="https://github.com/amaanhafeez18/fed-policy-uncertainty">Every data file, the code and a PDF version are on GitHub.</a></span>
+    <span>Sources: Federal Reserve Board (federalreserve.gov); FRED, Federal Reserve Bank of St. Louis (2-year Treasury yield, CPI, unemployment, VIX; VIX values are not redistributed); Husted, Rogers and Sun, "Monetary Policy Uncertainty"; Baker, Bloom and Davis, "Measuring Economic Policy Uncertainty"; NBER recession dates.</span>
     <span>Amaan Hafeez · Western University · 2026</span>
   </footer>
 </div>

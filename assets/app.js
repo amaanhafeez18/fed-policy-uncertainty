@@ -132,6 +132,10 @@
   function drawCompare(el) {
     const view = (document.getElementById('cmp-view') || {}).value || 'main';
     const suffix = view === 'ms' ? '_ms' : '';
+    for (const [id, show] of [['cmp-note-main', view !== 'ms'], ['cmp-note-ms', view === 'ms']]) {
+      const n = document.getElementById(id);
+      if (n) n.hidden = !show;
+    }
     const dates = DATA.weeks.map(parse);
     const ids = ['luna', 'gemini', 'haiku'];
     const avg = Object.fromEntries(ids.map((k) => [k, trailing(DATA.index[k + suffix], 13)]));

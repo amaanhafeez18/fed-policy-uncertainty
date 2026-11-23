@@ -141,6 +141,7 @@ def compute():
     clean.append(("Footnote links ('Return to text')", int(rest)))
     S["cleaning"] = [{"category": k, "words": v, "share_pct": 100 * v / total} for k, v in clean]
     S["kept_pct"] = 100 * kept / total
+    S["in_range_pct"] = 100 * p.n_words.between(m3.MIN_WORDS, m3.MAX_WORDS).mean()
 
     # models
     episodes = r18.HISTORY
@@ -185,6 +186,14 @@ def compute():
     S["agreement"] = agr
     S["speech_mean"] = {m["id"]: next(x["mean_score"] for x in m["by_type"] if x["label"] == "Board speeches") for m in models}
 
+    # how much text each version of the index rests on
+    years = (w.index[-1] - w.index[0]).days / 365.25
+    ms_docs = docs[docs.doc_type.isin(["minutes", "statement"])]
+    new_text = lambda d: (pd.Series(1, index=d.date).resample("W-FRI").sum().reindex(w.index).fillna(0) > 0).mean()
+    S["coverage"] = {"all_docs_per_year": len(docs) / years, "ms_docs_per_year": len(ms_docs) / years,
+                     "all_weeks_pct": 100 * new_text(docs), "ms_weeks_pct": 100 * new_text(ms_docs),
+                     "ms_paragraph_pct": 100 * p.doc_type.isin(["minutes", "statement"]).mean()}
+
     # comparisons with other measures
     weekly, monthly = comparison_series(w.index)
     mi = w[[f"{m}_policy" for m in MODELS]].resample("MS").mean()
@@ -213,5 +222,18 @@ def compute():
     S["n_comparisons"] = len(u)
     S["max_change"] = max(abs(r["change"]) for r in u)
     S["n_sig"] = sum(r["sig_change"] for r in u)
+    # the same tests for the minutes-and-statements version (changes only)
+    mi_ms = w[[f"{m}_policy_ms" for m in MODELS]].resample("MS").mean().set_axis(list(MODELS), axis=1)
+    ms_rows = []
+    for mid, label, short, freq, group in MEASURES:
+        if group != "uncertainty":
+            continue
+        X, Y = (w[[f"{m}_policy_ms" for m in MODELS]].set_axis(list(MODELS), axis=1), weekly[mid]) if freq == "weekly" else (mi_ms, monthly[mid].reindex(mi_ms.index))
+        for m in MODELS:
+            ch, nc = _corr(X[m].diff(), Y.diff())
+            ms_rows.append({"measure": short, "model": m, "change": ch, "sig": abs(ch) > crit(nc)})
+    S["ms_max_change"] = max(abs(r["change"]) for r in ms_rows)
+    S["ms_n_sig"] = sum(r["sig"] for r in ms_rows)
+    S["ms_correlations"] = ms_rows
     S["weekly"], S["monthly_benchmarks"], S["passages"], S["docs"], S["w"] = weekly, monthly, p, docs, w
     return S
