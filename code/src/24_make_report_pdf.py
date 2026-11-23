@@ -259,10 +259,7 @@ def main():
                  Paragraph("Faint line: weekly index. Thick line: 13-week average. Shaded: NBER recessions. Dotted lines: events labelled above.", S_["note"])]
         bullets = [f"Weekly index: average <b>{f2(m['weekly_mean'])}</b> on the 0-10 scale, standard deviation <b>{f2(m['weekly_sd'])}</b>.",
                    f"Calls <b>{pct(m['policy_share_pct'])}</b> of all paragraphs about future policy, with an average score of <b>{f2(m['mean_score'])}</b> on those."]
-        block += [ListFlowable([ListItem(Paragraph(b, S_["p"]), leftIndent=10) for b in bullets], bulletType="bullet", leftIndent=12, start="•"),
-                  table([["Document type", "Paragraphs about policy", "Average score on those", "Policy paragraphs"]] +
-                        [[t["label"], pct(t["share_pct"]), f2(t["mean_score"]), num(t["n"])] for t in m["by_type"]],
-                        [2.6, 1.6, 1.6, 1.4], right=(1, 2, 3))]
+        block += [ListFlowable([ListItem(Paragraph(b, S_["p"]), leftIndent=10) for b in bullets], bulletType="bullet", leftIndent=12, start="•")]
         each_part += ([PageBreak()] + block) if i == 0 else [KeepTogether(block)]
 
     agr = {r["pair"]: r for r in S["agreement"]}
