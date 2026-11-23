@@ -211,9 +211,7 @@ def main():
              "<b>Keep everything else,</b> including footnotes, numbered points, bullet lists and the policy directive quoted in the minutes."]
     cleaning_part = [Paragraph("5 · CLEANING", S_["eye"]), Paragraph("How the text was cleaned", S_["h"]),
            ListFlowable([ListItem(Paragraph(s, S_["p"]), leftIndent=12) for s in steps], bulletType="1", leftIndent=14, bulletFontSize=9.5),
-           Paragraph(f"<b>{pct(S['kept_pct'])}</b> of all words end up in a paragraph the models scored.", S_["p"]),
-           table([["Text", "Words", "Share of all words"]] + [[r["category"], num(r["words"]), pct(r["share_pct"])] for r in S["cleaning"]],
-                 [4.6, 1.2, 1.3], right=(1, 2))]
+           Paragraph(f"<b>{pct(S['kept_pct'])}</b> of all words end up in a paragraph the models scored.", S_["p"])]
 
     fields = [("policy_relevant", "Yes or no: is the paragraph about the future path of U.S. monetary policy (the federal funds rate, "
                "the balance sheet, or how the Fed will decide)?"),
