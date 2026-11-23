@@ -1,0 +1,19 @@
+measure,short,model,freq,group,level,change,crit,n,sig_change,sig_level
+Husted–Rogers–Sun: Fed policy uncertainty in newspapers,Husted–Rogers–Sun,GPT-6 Luna,monthly,uncertainty,-0.0366,0.0209,0.1224,258,False,False
+Husted–Rogers–Sun: Fed policy uncertainty in newspapers,Husted–Rogers–Sun,Gemini 3.1 Flash-Lite,monthly,uncertainty,0.1111,0.0923,0.1224,258,False,False
+Husted–Rogers–Sun: Fed policy uncertainty in newspapers,Husted–Rogers–Sun,Claude Haiku 5.5,monthly,uncertainty,0.1088,0.0511,0.1224,258,False,False
+Baker–Bloom–Davis: monetary policy uncertainty,Baker–Bloom–Davis,GPT-6 Luna,monthly,uncertainty,-0.0632,0.081,0.1224,258,False,False
+Baker–Bloom–Davis: monetary policy uncertainty,Baker–Bloom–Davis,Gemini 3.1 Flash-Lite,monthly,uncertainty,0.0633,0.129,0.1224,258,True,False
+Baker–Bloom–Davis: monetary policy uncertainty,Baker–Bloom–Davis,Claude Haiku 5.5,monthly,uncertainty,0.0505,0.0695,0.1224,258,False,False
+VIX: expected stock-market volatility,VIX,GPT-6 Luna,weekly,uncertainty,-0.0395,-0.0224,0.0587,1118,False,False
+VIX: expected stock-market volatility,VIX,Gemini 3.1 Flash-Lite,weekly,uncertainty,0.0594,-0.0187,0.0587,1118,False,True
+VIX: expected stock-market volatility,VIX,Claude Haiku 5.5,weekly,uncertainty,-0.0905,-0.0154,0.0587,1118,False,True
+2-year Treasury yield volatility,2-year yield volatility,GPT-6 Luna,weekly,uncertainty,-0.0001,0.0241,0.0587,1118,False,False
+2-year Treasury yield volatility,2-year yield volatility,Gemini 3.1 Flash-Lite,weekly,uncertainty,-0.0889,-0.0718,0.0587,1118,True,True
+2-year Treasury yield volatility,2-year yield volatility,Claude Haiku 5.5,weekly,uncertainty,0.0303,0.0236,0.0587,1118,False,False
+"CPI inflation, year on year",CPI inflation,GPT-6 Luna,monthly,macro,-0.0514,-0.0171,0.1224,258,False,False
+"CPI inflation, year on year",CPI inflation,Gemini 3.1 Flash-Lite,monthly,macro,-0.0741,-0.0848,0.1224,258,False,False
+"CPI inflation, year on year",CPI inflation,Claude Haiku 5.5,monthly,macro,0.09,0.0067,0.1224,258,False,False
+Unemployment rate,Unemployment rate,GPT-6 Luna,monthly,macro,-0.1458,0.0495,0.1224,258,False,True
+Unemployment rate,Unemployment rate,Gemini 3.1 Flash-Lite,monthly,macro,-0.1491,0.0248,0.1224,258,False,True
+Unemployment rate,Unemployment rate,Claude Haiku 5.5,monthly,macro,-0.1991,0.0224,0.1224,258,False,True

@@ -1,0 +1,4 @@
+pair,label,same_pct,kappa,within1_pct,r_weekly,r13,r13_ms
+luna-gemini,Luna and Gemini,93.5838,0.7484,54.399,0.2694,0.4174,0.5911
+luna-haiku,Luna and Haiku,91.1062,0.6944,74.5117,0.562,0.6924,0.6123
+gemini-haiku,Gemini and Haiku,92.2276,0.7431,62.9065,0.315,0.4062,0.5139
