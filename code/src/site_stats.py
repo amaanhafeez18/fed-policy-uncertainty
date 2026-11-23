@@ -141,7 +141,6 @@ def compute():
     clean.append(("Footnote links ('Return to text')", int(rest)))
     S["cleaning"] = [{"category": k, "words": v, "share_pct": 100 * v / total} for k, v in clean]
     S["kept_pct"] = 100 * kept / total
-    S["in_range_pct"] = 100 * p.n_words.between(m3.MIN_WORDS, m3.MAX_WORDS).mean()
 
     # models
     episodes = r18.HISTORY

@@ -204,9 +204,8 @@ def main():
            Paragraph("Before May 1999 the Fed issued a statement only when it changed policy, so 1994-95 rest mostly on the minutes.", S_["note"])]
 
     steps = ["<b>Read each page:</b> the document's own text only, without menus, page headers or links.",
-             "<b>Cut into paragraphs</b> at the Fed's own breaks, 60 to 250 words each: short pieces join the next one, long ones split at "
-             f"a sentence end. {pct(S['in_range_pct'])} fall in that range; the rest are a document's short last piece, or slightly longer "
-             "where a short piece was joined on.",
+             "<b>Cut into paragraphs</b> at the Fed's own breaks, roughly 60 to 250 words each: short pieces join the next one, long ones "
+             "split at a sentence end.",
              "<b>Remove what is not the Fed speaking:</b> attendance lists, vote tallies, bibliographies, headings, datelines, and "
              "reporters' questions at press conferences.",
              "<b>Keep everything else,</b> including footnotes, numbered points, bullet lists and the policy directive quoted in the minutes."]
