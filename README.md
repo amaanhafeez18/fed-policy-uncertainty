@@ -20,7 +20,7 @@ uncertainty and with the economy.
 | `data/paragraphs_scored.csv.gz` | Every scored paragraph with each model's answer (scores, stance, reason) |
 | `data/documents.csv.gz` | Every Fed document: release date, type, speaker, link and full text |
 | `data/comparison_*.csv` | Comparison series (Husted–Rogers–Sun, Baker–Bloom–Davis, CPI, unemployment, 2-year yield volatility) |
-| `data/correlations.csv`, `model_agreement.csv`, `history_periods.csv` | The tables on the page |
+| `data/correlations.csv`, `model_agreement.csv` | The tables on the page |
 | `data/prompt.txt` | The instructions every model received |
 | `code/` | The pipeline: collection, cleaning, scoring, index, tables, charts, page and PDF |
 

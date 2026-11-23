@@ -192,7 +192,7 @@ def main():
                     f"across <b>{S['n_comparisons']}</b> comparisons with four such measures, the largest correlation of changes is "
                     f"<b>{f2(S['max_change'])}</b>, and <b>{S['n_sig']}</b> pass the 5% cut-off.", S_["lead"])]
 
-    st += [Paragraph("1 · THE DATA", S_["eye"]), Paragraph("Every FOMC statement, set of minutes and press conference, and every Board speech", S_["h"]),
+    data_part = [Paragraph("4 · THE DATA", S_["eye"]), Paragraph("Every FOMC statement, set of minutes and press conference, and every Board speech", S_["h"]),
            Paragraph("All text comes from federalreserve.gov. Each document is dated by the day it became public. Minutes count from their "
                      "release: about three weeks after the meeting from December 2004, and a few days after the next meeting before that.", S_["p"]),
            table([["Document type", "First in the sample", "Documents", "Paragraphs scored", "Words"]] +
@@ -208,7 +208,7 @@ def main():
              "<b>Remove what is not the Fed speaking:</b> attendance lists, vote tallies, bibliographies, headings and datelines, and "
              "reporters' questions at press conferences.",
              "<b>Keep everything else,</b> including footnotes, numbered points, bullet lists and the policy directive quoted in the minutes."]
-    st += [Paragraph("2 · CLEANING", S_["eye"]), Paragraph("How the text was cleaned", S_["h"]),
+    cleaning_part = [Paragraph("5 · CLEANING", S_["eye"]), Paragraph("How the text was cleaned", S_["h"]),
            ListFlowable([ListItem(Paragraph(s, S_["p"]), leftIndent=12) for s in steps], bulletType="1", leftIndent=14, bulletFontSize=9.5),
            Paragraph(f"<b>{pct(S['kept_pct'])}</b> of all words end up in a paragraph the models scored.", S_["p"]),
            table([["Text", "Words", "Share of all words"]] + [[r["category"], num(r["words"]), pct(r["share_pct"])] for r in S["cleaning"]],
@@ -229,7 +229,7 @@ def main():
     sc.setStyle(TableStyle([("BOX", (0, 0), (-1, -1), 0.6, line_c), ("INNERGRID", (0, 0), (-1, -1), 0.6, line_c),
                             ("BACKGROUND", (0, 0), (-1, -1), panel), ("VALIGN", (0, 0), (-1, -1), "TOP"),
                             ("TOPPADDING", (0, 0), (-1, -1), 6), ("BOTTOMPADDING", (0, 0), (-1, -1), 6), ("LEFTPADDING", (0, 0), (-1, -1), 7)]))
-    st += [Paragraph("3 · THE PROMPT", S_["eye"]), Paragraph("What each model was asked", S_["h"]),
+    prompt_part = [Paragraph("6 · THE PROMPT AND THE MODELS", S_["eye"]), Paragraph("What each model was asked", S_["h"]),
            Paragraph("Every paragraph goes to each model on its own, with no date, no speaker and no document name. All three models get "
                      "the same instructions (reproduced in full at the end) and answer in a fixed format with five fields.", S_["p"]),
            table([["Field", "Meaning"]] + [[f"<font name='Courier'>{a}</font>", b] for a, b in fields], [1.6, 5.6]),
@@ -238,7 +238,7 @@ def main():
                      "policy are averaged within each document, then across the documents released in each week (weeks end on Friday). A "
                      "week with no new policy text keeps the previous week's value.", S_["p"])]
 
-    st += [Paragraph("4 · THE MODELS", S_["eye"]), Paragraph("Three models from three companies", S_["h"]),
+    models_part = [Paragraph("The three models", S_["h3"]),
            Paragraph("Using three low-cost models from different companies shows whether the result depends on which model reads the text.", S_["p"]),
            table([["Model", "Company and setting", "Paragraphs about policy", "Average score on those", "Weekly index, average"]] +
                  [[m["label"], f"{m['company']}, {m['setting']}", pct(m["policy_share_pct"]), f2(m["mean_score"]), f2(m["weekly_mean"])] for m in S["models"]],
@@ -250,22 +250,22 @@ def main():
            Paragraph("Kappa is agreement beyond what chance would give: 0 is chance, 1 is perfect. 'Scores within 1 point' counts paragraphs "
                      "both models call about policy.", S_["note"])]
 
+    each_part = []
     for i, m in enumerate(S["models"]):
-        block = [Paragraph("5 · EACH MODEL" if i == 0 else " ", S_["eye"]),
+        block = [Paragraph("2 · EACH MODEL" if i == 0 else " ", S_["eye"]),
                  Paragraph(f"{m['label']} <font color='{MUTED}' size=10>({m['company']}, {m['setting']})</font>", S_["h"]),
                  img(FIG / f"model_{m['id']}.png"),
                  Paragraph("Faint line: weekly index. Thick line: 13-week average. Shaded: NBER recessions. Dotted lines: events labelled above.", S_["note"])]
         bullets = [f"The weekly index averages <b>{f2(m['weekly_mean'])}</b> on the 0-10 scale, with a weekly standard deviation of <b>{f2(m['weekly_sd'])}</b>.",
-                   f"It calls <b>{pct(m['policy_share_pct'])}</b> of all paragraphs about future policy and gives those an average score of <b>{f2(m['mean_score'])}</b>.",
-                   f"Most uncertain of the ten historical periods in section 8: <b>{esc(m['top_episode'])}</b>. Least uncertain: <b>{esc(m['bottom_episode'])}</b>."]
+                   f"It calls <b>{pct(m['policy_share_pct'])}</b> of all paragraphs about future policy and gives those an average score of <b>{f2(m['mean_score'])}</b>."]
         block += [ListFlowable([ListItem(Paragraph(b, S_["p"]), leftIndent=10) for b in bullets], bulletType="bullet", leftIndent=12, start="•"),
                   table([["Document type", "Paragraphs about policy", "Average score on those", "Policy paragraphs"]] +
                         [[t["label"], pct(t["share_pct"]), f2(t["mean_score"]), num(t["n"])] for t in m["by_type"]],
                         [2.6, 1.6, 1.6, 1.4], right=(1, 2, 3))]
-        st += [PageBreak()] + block if i == 0 else [KeepTogether(block)]
+        each_part += ([PageBreak()] + block) if i == 0 else [KeepTogether(block)]
 
     agr = {r["pair"]: r for r in S["agreement"]}
-    st += [PageBreak(), Paragraph("6 · SIDE BY SIDE", S_["eye"]), Paragraph("The three models together", S_["h"]), img(FIG / "compare.png"),
+    side_part = [Paragraph("1 · THE INDEX", S_["eye"]), Paragraph("The weekly index: three models together", S_["h"]), img(FIG / "compare.png"),
            Paragraph(f"In the main index Luna and Haiku track each other (correlation <b>{f2(agr['luna-haiku']['r13'])}</b>), while Gemini sits "
                      f"higher and moves differently (<b>{f2(agr['luna-gemini']['r13'])}</b> with Luna, <b>{f2(agr['gemini-haiku']['r13'])}</b> with "
                      "Haiku). Most of that gap comes from speeches: on speech paragraphs about policy, Gemini's average score is "
@@ -281,7 +281,7 @@ def main():
             sig.add((k, 2))
         if r["sig_change"]:
             sig.add((k, 3))
-    st += [PageBreak(), Paragraph("7 · AGAINST OTHER MEASURES", S_["eye"]), Paragraph("Each model against established measures and the economy", S_["h"]),
+    measures_part = [PageBreak(), Paragraph("3 · AGAINST OTHER MEASURES", S_["eye"]), Paragraph("Each model against established measures and the economy", S_["h"]),
            Paragraph("If the index captures uncertainty about Fed policy, it should move with other measures of it. The four uncertainty "
                      "measures are the Husted-Rogers-Sun newspaper index of uncertainty about Fed policy, the Baker-Bloom-Davis "
                      "monetary-policy index, the VIX and the volatility of the 2-year Treasury yield. Inflation and unemployment show how the "
@@ -294,21 +294,7 @@ def main():
                      "generous for them. Monthly comparisons use the monthly average of the weekly index. MOVE and emerging-market spreads are "
                      "not freely available back to 1994; they will come from Bloomberg.", S_["note"])]
 
-    hrows = [["Period", "Episode", "Expected", "Luna", "Gemini", "Haiku"]]
-    marks = {}
-    for k, r in enumerate(S["history"], start=1):
-        hrows.append([r["period"], r["episode"], r["expected"]] + [f2(r[m]) for m in site_stats.MODELS])
-        for j, m in enumerate(site_stats.MODELS, start=3):
-            if r[f"{m}_top"]:
-                marks[(k, j)] = "top"
-            if r[f"{m}_bottom"]:
-                hrows[k][j] = f"<u>{f2(r[m])}</u>"
-    st += [Paragraph("8 · FED HISTORY", S_["eye"]), Paragraph("Ten periods of Fed history", S_["h"]),
-           Paragraph("Periods where Fed history gives a clear expectation, written down before any result was seen. Each cell is the model's "
-                     "average weekly index over the period. <b>Bold</b> marks the model's most uncertain period and <u>underline</u> its least uncertain.", S_["p"]),
-           table(hrows, [1.35, 2.15, 1.75, 0.6, 0.65, 0.6], right=(3, 4, 5), bold=lambda i, j: marks.get((i, j)) == "top")]
-
-    st += [Paragraph("9 · DATA AND CODE", S_["eye"]), Paragraph("Downloads", S_["h"]),
+    downloads_part = [Paragraph("7 · THE DATA BEHIND THIS REPORT", S_["eye"]), Paragraph("Everything I looked at: data, report and code", S_["h"]),
            Paragraph(f"The interactive page, every data file (weekly index, every paragraph with each model's answer, every Fed document with "
                      f"its full text, the comparison series and the tables) and the code are at <b>{SITE_URL}</b>.", S_["p"]),
            Paragraph("Sources: Federal Reserve Board (federalreserve.gov); FRED, Federal Reserve Bank of St. Louis (2-year Treasury yield, CPI, "
@@ -316,6 +302,8 @@ def main():
                      "Policy Uncertainty' (policyuncertainty.com). Recession shading follows NBER dates.", S_["note"]),
            PageBreak(), Paragraph("APPENDIX", S_["eye"]), Paragraph("The instructions every model received, word for word", S_["h"]),
            Preformatted(SYSTEM_PROMPT, S_["mono"], maxLineLength=118)]
+
+    st += side_part + each_part + measures_part + [PageBreak()] + data_part + cleaning_part + prompt_part + models_part + downloads_part
 
     def footer(c, d):
         c.saveState()

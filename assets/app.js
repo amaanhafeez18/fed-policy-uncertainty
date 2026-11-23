@@ -170,7 +170,7 @@
     if (r) {
       const unit = ms.freq === 'weekly' ? 'weeks' : 'months';
       r.textContent = 'Correlation in levels ' + signed(s.level) + ', in changes ' + signed(s.change) + ' — '
-        + (Math.abs(s.change) > s.crit ? 'beyond' : 'within') + ' the 5% cut-off of ±' + f2(s.crit) + ' (' + s.n + ' ' + unit + ').';
+        + (Math.abs(s.change) > s.crit ? 'beyond' : 'within') + ' the 5% cut-off of ±' + f2(s.crit) + ' (' + d3.format(',')(s.n) + ' ' + unit + ').';
     }
   }
 
