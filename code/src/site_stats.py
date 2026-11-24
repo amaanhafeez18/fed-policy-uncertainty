@@ -43,6 +43,20 @@ def _fred(s):
     return d.set_index("date")[s].dropna()
 
 
+def nice_title(doc_type, title, date):
+    """A reader-facing title: minutes, statements and press conferences by date; speeches keep their own title."""
+    long = lambda t: f"{t:%B} {t.day}, {t.year}"
+    if doc_type == "minutes":
+        meeting = re.match(r"Minutes of meeting (\d{8})", title)
+        assert meeting, title
+        return f"Minutes of the FOMC meeting of {long(pd.Timestamp(meeting.group(1)))}" + (" (release date estimated)" if "rule:" in title else "")
+    if doc_type == "statement":
+        return f"FOMC statement, {long(pd.Timestamp(date))}"
+    if doc_type == "press_conference":
+        return f"Press conference, {long(pd.Timestamp(date))}"
+    return title
+
+
 def crit(n):
     t = stats.t.ppf(0.975, n - 2)
     return float(t / np.sqrt(n - 2 + t ** 2))
